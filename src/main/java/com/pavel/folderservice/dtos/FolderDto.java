@@ -22,7 +22,7 @@ public class FolderDto {
 
     public FolderDto(String name) {
         this.name = name;
-        this.parentFolderId = "unknown";
+        this.parentFolderId = "da1c835a-5a5c-49b2-a88e-8f5647950954";
         this.owner = "unknown";
         this.creationDate = LocalDateTime.now();
         this.uuid = UUID.randomUUID().toString();
@@ -46,17 +46,8 @@ public class FolderDto {
         return this;
     }
 
-
     public String getParentFolderId() {
         return parentFolderId;
-    }
-
-    public String getFullPathWithoutFolderName() {
-        return parentFolderId.substring(0, parentFolderId.lastIndexOf('/'));
-    }
-
-    public String getParentFolderName() {
-        return parentFolderId.substring(parentFolderId.lastIndexOf('/') + 1);
     }
 
     public FolderDto setParentFolderId(String parentFolderId) {

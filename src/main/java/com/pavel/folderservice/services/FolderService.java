@@ -1,10 +1,10 @@
 package com.pavel.folderservice.services;
 
+import com.pavel.folderservice.dtos.CreateFolderDto;
 import com.pavel.folderservice.dtos.FolderDto;
 import com.pavel.folderservice.entities.FolderEntity;
 import com.pavel.folderservice.repositories.FolderRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -17,16 +17,18 @@ public class FolderService {
         this.folderRepository = folderRepository;
     }
 
-    public String create(FolderDto folderDto) {
+    public String create(CreateFolderDto folderDto) {
         FolderEntity folderEntity = new FolderEntity();
 
-        folderEntity.setName("/" + folderDto.getName());
-        folderEntity.setOwner(folderDto.getOwner());
+        folderEntity.setName("/" + folderDto.name());
+        folderEntity.setOwner("pavel");
 
-        FolderEntity parentFolder = folderRepository.findByUuid(folderDto.getParentFolderId());
-//        folderEntity.setParentFolder("parentFolder");
+        String parentFolderId = folderDto.parentFolderId();
+        FolderEntity parentFolder = folderRepository.findByUuid(parentFolderId);
+        folderEntity.setParentFolder(parentFolder);
         folderEntity.setUuid(UUID.randomUUID().toString());
         folderEntity.setCreationDate(LocalDateTime.now());
+        folderEntity.setShared(false);
 
         FolderEntity savedFolder = folderRepository.save(folderEntity);
         return savedFolder.getUuid();
@@ -61,7 +63,7 @@ public class FolderService {
         Collection<FolderEntity> content = new LinkedHashSet<>();
 
         FolderEntity folderEntity = folderRepository.findByUuid(uuid);
-//        content.addAll(folderEntity.getContainedFolders());
+        content.addAll(folderEntity.getContainedFolders());
 
         List<FolderDto> result = new ArrayList<>();
 //        if (!isMainRootDirectory(folderEntity)) {

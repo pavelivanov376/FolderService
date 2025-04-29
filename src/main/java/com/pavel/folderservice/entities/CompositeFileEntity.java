@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public abstract class CompositeFileEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "uuid", nullable = false, unique = true)
