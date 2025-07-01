@@ -1,6 +1,9 @@
 package com.pavel.folderservice.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToOne;
 
 @Entity(name = "files")
 public class FileEntity extends CompositeFileEntity {
@@ -10,20 +13,16 @@ public class FileEntity extends CompositeFileEntity {
     @Column(name = "type")
     private String type;
 
+    public FileEntity() {
+        setType("file");
+    }
+
     public FolderEntity getParentFolder() {
         return parentFolder;
     }
 
     public void setParentFolder(FolderEntity parentFolder) {
         this.parentFolder = parentFolder;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
 }

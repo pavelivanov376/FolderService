@@ -1,15 +1,16 @@
 package com.pavel.folderservice.controllers;
 
+import com.pavel.folderservice.dtos.AbstractFileDto;
 import com.pavel.folderservice.dtos.CreateFolderDto;
-import com.pavel.folderservice.dtos.FolderDto;
 import com.pavel.folderservice.services.FolderService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
-@Controller
+@CrossOrigin(origins = "http://localhost:3000")
+@RestController
+//@RequestMapping("/api/files")
 public class FolderController {
     private final FolderService folderService;
 
@@ -18,7 +19,7 @@ public class FolderController {
     }
 
     @GetMapping("/api/folder/{uuid}")
-    public ResponseEntity<Collection<FolderDto>> getFolderContent(@PathVariable("uuid") String uuid) {
+    public ResponseEntity<Collection<AbstractFileDto>> getFolderContent(@PathVariable("uuid") String uuid) {
         return ResponseEntity.ok(folderService.listByUuid(uuid));
     }
 
@@ -28,6 +29,7 @@ public class FolderController {
         return ResponseEntity.ok(folderService.create(folder));
     }
 
+    //TODO: For testing purposes only, remove later
     @PostMapping("/api/folder/create/{name}")
     public ResponseEntity<String> createFolder(@PathVariable("name") String name) {
         CreateFolderDto folder = new CreateFolderDto(name, "10000000-0000-0000-0000-000000000001");

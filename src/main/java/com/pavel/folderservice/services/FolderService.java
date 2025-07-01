@@ -1,7 +1,9 @@
 package com.pavel.folderservice.services;
 
+import com.pavel.folderservice.dtos.AbstractFileDto;
 import com.pavel.folderservice.dtos.CreateFolderDto;
 import com.pavel.folderservice.dtos.FolderDto;
+import com.pavel.folderservice.entities.CompositeFileEntity;
 import com.pavel.folderservice.entities.FolderEntity;
 import com.pavel.folderservice.repositories.FolderRepository;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import java.util.stream.Collectors;
 @Service
 public class FolderService {
     private final FolderRepository folderRepository;
+
     public FolderService(FolderRepository folderRepository) {
         this.folderRepository = folderRepository;
     }
@@ -42,7 +45,7 @@ public class FolderService {
         return content.stream().map(e -> new FolderDto(e, parenFolderUuidd)).collect(Collectors.toList());
     }
 
-//    public String createHomeFolderForUser(UserDTO userDTO) {
+    //    public String createHomeFolderForUser(UserDTO userDTO) {
 //        FolderDto folderDto = new FolderDto()
 //                .setName(userDTO.getName())
 //                .setParentFolderId("10000000-0000-0000-0000-000000000001")
@@ -59,19 +62,20 @@ public class FolderService {
 //        return create(folderDto);
 //    }
 //
-    public Collection<FolderDto> listByUuid(String uuid) {
-        Collection<FolderEntity> content = new LinkedHashSet<>();
+    public Collection<AbstractFileDto> listByUuid(String uuid) {
+        Collection<CompositeFileEntity> content = new LinkedHashSet<>();
 
         FolderEntity folderEntity = folderRepository.findByUuid(uuid);
         content.addAll(folderEntity.getContainedFolders());
+        content.addAll(folderEntity.getContainedFiles());
 
-        List<FolderDto> result = new ArrayList<>();
+        List<AbstractFileDto> result = new ArrayList<>();
 //        if (!isMainRootDirectory(folderEntity)) {
-//            BaseEntityDTO parent = new BaseEntityDTO(folderEntity.getParentFolder(), uuid).setName("/..");
+//            AbstractFileDto parent = new FolderDto(folderEntity.getParentFolder(), uuid).setName("/..");
 //            result.add(parent);
 //        }
-        result.addAll(content.stream().map(e -> new FolderDto(e, uuid)).collect(Collectors.toList()));
-        result.sort(Comparator.comparing(FolderDto::getName));
+        result.addAll(content.stream().map(e -> new FolderDto(e, uuid)).toList());
+        result.sort(Comparator.comparing(AbstractFileDto::getName));
         return result;
     }
 
@@ -79,10 +83,10 @@ public class FolderService {
         return folderRepository.findByUuid(uuid);
     }
 
-//    private boolean isMainRootDirectory(FolderEntity folderEntity) {
-//        return folderEntity.getParentFolder().getUuid().equals("10000000-0000-0000-0000-000000000001");
-//    }
-//
+    private boolean isMainRootDirectory(FolderEntity folderEntity) {
+        return folderEntity.getParentFolder().getUuid().equals("10000000-0000-0000-0000-000000000001");
+    }
+
     public String delete(String uuid) {
         folderRepository.deleteByUuid(uuid);
         return "Folder deleted";

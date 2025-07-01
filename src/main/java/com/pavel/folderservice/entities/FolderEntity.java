@@ -3,8 +3,6 @@ package com.pavel.folderservice.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Set;
 
 @Entity(name = "folders")
@@ -20,10 +18,11 @@ public class FolderEntity extends CompositeFileEntity {
 
 
     public FolderEntity() {
+        setType("folder");
     }
 
-    public FolderEntity(String name, String owner, LocalDateTime creationDate) {
-        super(name, owner, creationDate);
+    public FolderEntity(String name, LocalDateTime creationDate) {
+        super(name, "folder", creationDate);
     }
 
     public Set<FileEntity> getContainedFiles() {

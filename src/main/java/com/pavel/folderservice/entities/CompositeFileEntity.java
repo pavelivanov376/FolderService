@@ -16,6 +16,9 @@ public abstract class CompositeFileEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "type")
+    private String type;
+
     @Column(name = "owner")
     private String owner;
 
@@ -31,9 +34,9 @@ public abstract class CompositeFileEntity {
     public CompositeFileEntity() {
     }
 
-    public CompositeFileEntity(String name, String owner, LocalDateTime creationDate) {
+    public CompositeFileEntity(String name, String type, LocalDateTime creationDate) {
         this.name = name;
-        this.owner = owner;
+        this.type = type;
         this.creationDate = creationDate;
     }
 
@@ -96,6 +99,15 @@ public abstract class CompositeFileEntity {
 
     public CompositeFileEntity setUuid(String uuid) {
         this.uuid = uuid;
+        return this;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public CompositeFileEntity setType(String type) {
+        this.type = type;
         return this;
     }
 }
