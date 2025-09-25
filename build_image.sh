@@ -1,3 +1,3 @@
 #!/bin/sh
 
-docker build -t folderservice:local .
+DOCKER_BUILDKIT=1 docker build -t folderservice:local .
