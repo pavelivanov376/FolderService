@@ -3,13 +3,9 @@ package com.pavel.folderservice.controllers;
 import com.pavel.folderservice.dtos.CreateFileDto;
 import com.pavel.folderservice.services.FileService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost:3000")
-//@RequestMapping("/api/files")
+@RequestMapping("/api/file")
 @RestController
 public class FileController {
     private final FileService fileService;
@@ -18,7 +14,7 @@ public class FileController {
         this.fileService = fileService;
     }
 
-    @PostMapping("/api/file/create")
+    @PostMapping("/link/folder")
     public ResponseEntity<String> createFile(@RequestBody CreateFileDto file/*, Principal principal*/) {
 
         return ResponseEntity.ok(fileService.create(file));

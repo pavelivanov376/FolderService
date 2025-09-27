@@ -32,6 +32,8 @@ public class FolderService {
         folderEntity.setUuid(UUID.randomUUID().toString());
         folderEntity.setCreationDate(LocalDateTime.now());
         folderEntity.setShared(false);
+        folderEntity.setType("folder");
+
 
         FolderEntity savedFolder = folderRepository.save(folderEntity);
         return savedFolder.getUuid();

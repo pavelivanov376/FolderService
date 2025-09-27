@@ -25,11 +25,15 @@ public class FileService {
 
     public String create(CreateFileDto fileDto) {
         FileEntity fileEntity = new FileEntity();
-        fileEntity.setName(fileDto.name());
 
         FolderEntity parentFolder = folderRepository.findByUuid(fileDto.parentFolderId());
         fileEntity.setParentFolder(parentFolder);
-        fileEntity.setUuid(UUID.randomUUID().toString());
+        fileEntity.setUuid(fileDto.uuid());
+        fileEntity.setName(fileDto.name());
+        fileEntity.setOwner("Pavel");
+        fileEntity.setType("file");
+        fileEntity.setShared(false);
+
         FileEntity saved = fileRepository.save(fileEntity);
 
         return saved.getUuid();

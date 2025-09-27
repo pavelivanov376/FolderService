@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-//@RequestMapping("/api/files")
+//@RequestMapping("/api/folder")
 public class FolderController {
     private final FolderService folderService;
 
